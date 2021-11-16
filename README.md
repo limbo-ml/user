@@ -1,0 +1,1 @@
+Welcome to Limbo, a library for working with computer vision data stored using the Limbo Data Format, which we created to organize and annotate the hybrid synthetic training data that we create for our research.
