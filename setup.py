@@ -21,7 +21,7 @@ setup(
         ],
     maintainer="Timothy M. Shead",
     maintainer_email="tshead@sandia.gov",
-    name="limbo",
+    name="limbo-ml",
     packages=find_packages(),
     package_data = {"": ["*.csv"]},
     scripts=[
