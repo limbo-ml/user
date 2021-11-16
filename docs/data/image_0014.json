@@ -1,0 +1,33 @@
+{
+  "annotations": [
+    {
+      "bbox": [
+        292.8187255859375,
+        378.603759765625,
+        414.91790771484375,
+        294.28094482421875
+      ],
+      "bbox_mode": "XYWH_ABS",
+      "category": "30B"
+    },
+    {
+      "category": "real"
+    },
+    {
+      "category": "30"
+    }
+  ],
+  "image": {
+    "content-type": "image/png",
+    "filename": "image_0014.png",
+    "res": [
+      1201,
+      804
+    ]
+  },
+  "provenance": {
+    "copyright": "Katy Laffan / IAEA, 2019",
+    "license": "Some rights reserved, Attribution 2.0 Generic (CC BY 2.0)",
+    "uri": "https://www.flickr.com/photos/iaea_imagebank/49397817493/in/photolist-2ig7J9v-xgT4rJ-4FvLiE-7vnLKM"
+  }
+}
