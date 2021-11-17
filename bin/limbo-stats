@@ -63,7 +63,7 @@ for row, sample in enumerate(tqdm.tqdm(dataset, desc="Samples", unit="sample")):
         for annotation in sample.metadata["annotations"]:
             if "bbox" in annotation:
                 mark(row, bbox_column)
-            if "contour" in annotation:
+            if "contours" in annotation:
                 mark(row, contour_column)
             else:
                 mark(row, tag_column)
