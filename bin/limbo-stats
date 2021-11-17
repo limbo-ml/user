@@ -113,7 +113,7 @@ new_columns = [index for index, column in enumerate(old_columns)]
 new_samples = samples[:, old_columns]
 
 for configuration in numpy.unique(new_samples, axis=0):
-    label = " + ".join([category for category, new_column in zip(categories, new_columns) if configuration[new_column]])
+    label = " + ".join([repr(category) for category, new_column in zip(categories, new_columns) if configuration[new_column]])
     matches = numpy.all(numpy.equal(new_samples, configuration), axis=1)
     logging.info(f"  Samples annotated {label}: {numpy.sum(matches)}")
 
