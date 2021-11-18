@@ -3,3 +3,7 @@ version: 2
 build:
   apt_packages:
     - libopenexr-dev
+
+python:
+  install:
+    - requirements: docs/requirements.txt
