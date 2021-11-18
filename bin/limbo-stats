@@ -4,6 +4,7 @@ import argparse
 import itertools
 import logging
 import os
+import sys
 
 import numpy
 import scipy.sparse
@@ -14,6 +15,7 @@ import limbo.data
 parser = argparse.ArgumentParser(description="Print information about Limbo dataset(s).")
 parser.add_argument("--copyright", action="store_true", help="Display copyright statistics.")
 parser.add_argument("--license", action="store_true", help="Display license statistics.")
+parser.add_argument("--license-csv", action="store_true", help="Display license statistics as CSV data.")
 parser.add_argument("datadir", nargs="+", default=[], help="Limbo dataset director(ies).")
 arguments = parser.parse_args()
 
@@ -126,4 +128,10 @@ if arguments.license:
     logging.info("Licenses:")
     for license in licenses:
         logging.info(f"  License {license!r} samples: {numpy.count_nonzero(samples[:,license_columns[license]])}")
+
+if arguments.license_csv:
+    sys.stdout.write("count,original\n")
+    for license in licenses:
+        sys.stdout.write(f"{numpy.count_nonzero(samples[:,license_columns[license]])},\"{license}\"\n")
+
 
