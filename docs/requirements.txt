@@ -1,4 +1,5 @@
 graphcat
+imagecat
 nbsphinx
 samlab
 sphinx-gallery
