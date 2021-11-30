@@ -166,7 +166,7 @@ class Cryptomatte(object):
         annotations = [annotation for annotation in annotations if "contours" not in annotation]
 
         for instance in self.instances:
-            category, index = instance.split("/")
+            category, index = instance.rsplit("/", 1)
 
             contours = self.contours(instance)
             if contours:
@@ -181,8 +181,6 @@ class Cryptomatte(object):
                     "bbox": self.bbox(instance),
                     "bbox_mode": "XYWH_ABS",
                 })
-        #import pprint
-        #pprint.pprint(annotations)
         self._sample.update_metadata({"annotations": annotations})
 
 
