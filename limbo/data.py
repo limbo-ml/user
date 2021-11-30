@@ -240,7 +240,7 @@ class Cryptomatte(object):
         colors = {}
         categories = {}
         for instance in self.instances:
-            category, index = instance.split("/")
+            category, index = instance.rsplit("/", 1)
             if category not in categories:
                 categories[category] = next(color)
             colors[instance] = categories[category]
