@@ -130,8 +130,10 @@ if arguments.license:
         logging.info(f"  License {license!r} samples: {numpy.count_nonzero(samples[:,license_columns[license]])}")
 
 if arguments.license_csv:
-    sys.stdout.write("count,original\n")
+    sys.stdout.write("count,original,indices\n")
     for license in licenses:
-        sys.stdout.write(f"{numpy.count_nonzero(samples[:,license_columns[license]])},\"{license}\"\n")
+        indices = numpy.flatnonzero(samples[:, license_columns[license]])
+        indices = " ".join([str(index) for index in indices])
+        sys.stdout.write(f"{numpy.count_nonzero(samples[:,license_columns[license]])},\"{license}\",{indices}\n")
 
 
