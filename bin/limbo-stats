@@ -98,36 +98,47 @@ licenses = sorted(license_columns.keys())
 samples = scipy.sparse.coo_matrix((data, (i, j))).toarray()
 
 logging.info(f"Total samples: {len(dataset)}.")
-logging.info(f"  Samples with provenance: {numpy.count_nonzero(samples[:,provenance_column])}")
-logging.info(f"  Samples with images: {numpy.count_nonzero(samples[:,image_column])}")
-logging.info(f"  Samples with synthetic data: {numpy.count_nonzero(samples[:,synthetic_column])}")
-logging.info(f"  Samples with cryptomatte data: {numpy.count_nonzero(samples[:,cryptomatte_column])}")
-logging.info(f"  Samples with bounding-boxes: {numpy.count_nonzero(samples[:,bbox_column])}")
-logging.info(f"  Samples with contours: {numpy.count_nonzero(samples[:,contour_column])}")
-logging.info(f"  Samples with tags: {numpy.count_nonzero(samples[:,tag_column])}")
+logging.info("")
+logging.info(f"- Samples with provenance: {numpy.count_nonzero(samples[:,provenance_column])}")
+logging.info(f"- Samples with images: {numpy.count_nonzero(samples[:,image_column])}")
+logging.info(f"- Samples with synthetic data: {numpy.count_nonzero(samples[:,synthetic_column])}")
+logging.info(f"- Samples with cryptomatte data: {numpy.count_nonzero(samples[:,cryptomatte_column])}")
+logging.info(f"- Samples with bounding-boxes: {numpy.count_nonzero(samples[:,bbox_column])}")
+logging.info(f"- Samples with contours: {numpy.count_nonzero(samples[:,contour_column])}")
+logging.info(f"- Samples with tags: {numpy.count_nonzero(samples[:,tag_column])}")
+logging.info("")
 
 logging.info("Categories:")
+logging.info("")
 for category in categories:
-    logging.info(f"  Category {category!r} samples: {numpy.count_nonzero(samples[:,category_columns[category]])}")
+    logging.info(f"- Category *{category}* samples: {numpy.count_nonzero(samples[:,category_columns[category]])}")
+logging.info("")
 
 old_columns = [category_columns[category] for category in categories]
 new_columns = [index for index, column in enumerate(old_columns)]
 new_samples = samples[:, old_columns]
 
+logging.info("Annotations:")
+logging.info("")
 for configuration in numpy.unique(new_samples, axis=0):
-    label = " + ".join([repr(category) for category, new_column in zip(categories, new_columns) if configuration[new_column]])
+    label = " + ".join([f"*{category}*" for category, new_column in zip(categories, new_columns) if configuration[new_column]])
     matches = numpy.all(numpy.equal(new_samples, configuration), axis=1)
-    logging.info(f"  Samples annotated {label}: {numpy.sum(matches)}")
+    logging.info(f"- Samples annotated {label}: {numpy.sum(matches)}")
+logging.info("")
 
 if arguments.copyright:
     logging.info("Copyrights:")
+    logging.info("")
     for copyright in copyrights:
-        logging.info(f"  Copyright {copyright!r} samples: {numpy.count_nonzero(samples[:,copyright_columns[copyright]])}")
+        logging.info(f"- Copyright *{copyright}* samples: {numpy.count_nonzero(samples[:,copyright_columns[copyright]])}")
+    logging.info("")
 
 if arguments.license:
     logging.info("Licenses:")
+    logging.info("")
     for license in licenses:
-        logging.info(f"  License {license!r} samples: {numpy.count_nonzero(samples[:,license_columns[license]])}")
+        logging.info(f"- License *{license}* samples: {numpy.count_nonzero(samples[:,license_columns[license]])}")
+    logging.info("")
 
 if arguments.license_csv:
     sys.stdout.write("count,original,indices\n")
