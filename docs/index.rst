@@ -1,9 +1,22 @@
-Welcome!
-========
+Welcome to Limbo!
+=================
 
-Welcome to Limbo, a library for working with computer vision data stored using
-the :ref:`specification`, which we created to organize and annotate the hybrid synthetic
-training data that we create for our research.
+The Limbo project provides three things:
+
+:ref:`data` is a growing collection (200000 images and counting) of synthetic
+computer vision training data created for our research.  If you're a computer
+vision researcher interested in training models on synthetic data, we encourage
+you to download a copy!
+
+:ref:`specification` is the specification for how that data is stored.  If
+you're creating synthetic image data for research, we encourage you to consider
+adopting the same specification, and welcome your feedback!
+
+:ref:`software` is a collection of Python-based tools for managing data in
+:ref:`specification`.  Whether you're using our :ref:`data` or creating your
+own, these tools will simplify your work.
+
+
 
 Documentation
 =============
@@ -11,13 +24,9 @@ Documentation
 .. toctree::
    :maxdepth: 2
 
-   installation.rst
-   user-guide.rst
-   reference.rst
-   compatibility.rst
-   dependencies.rst
-   support.rst
-   release-notes.rst
+   data
+   specification
+   software
 
 Indices and tables
 ==================
@@ -25,4 +34,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
