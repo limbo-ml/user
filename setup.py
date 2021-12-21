@@ -34,6 +34,7 @@ setup(
         "Source": "http://github.com/limbo-ml/user",
     },
     scripts=[
+        "bin/limbo-lint",
         "bin/limbo-materialize",
         "bin/limbo-stats",
         ],
