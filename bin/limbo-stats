@@ -14,6 +14,7 @@ import limbo.data
 
 parser = argparse.ArgumentParser(description="Print information about Limbo dataset(s).")
 parser.add_argument("--copyright", action="store_true", help="Display copyright statistics.")
+parser.add_argument("--empty-bbox", action="store_true", help="Display samples that have empty bounding boxes.")
 parser.add_argument("--license", action="store_true", help="Display license statistics.")
 parser.add_argument("--license-csv", action="store_true", help="Display license statistics as CSV data.")
 parser.add_argument("datadir", nargs="+", default=[], help="Limbo dataset director(ies).")
@@ -32,6 +33,7 @@ dataset = limbo.data.Dataset(arguments.datadir)
 column = itertools.count()
 
 bbox_column = next(column)
+empty_bbox_column = next(column)
 category_columns = {}
 contour_column = next(column)
 copyright_columns = {}
@@ -65,6 +67,9 @@ for row, sample in enumerate(tqdm.tqdm(dataset, desc="Samples", unit="sample")):
         for annotation in sample.metadata["annotations"]:
             if "bbox" in annotation:
                 mark(row, bbox_column)
+                x, y, width, height = annotation["bbox"]
+                if width == 0 and height == 0:
+                    mark(row, empty_bbox_column)
             if "contours" in annotation:
                 mark(row, contour_column)
             else:
@@ -104,6 +109,7 @@ logging.info(f"- Samples with images: {numpy.count_nonzero(samples[:,image_colum
 logging.info(f"- Samples with synthetic data: {numpy.count_nonzero(samples[:,synthetic_column])}")
 logging.info(f"- Samples with cryptomatte data: {numpy.count_nonzero(samples[:,cryptomatte_column])}")
 logging.info(f"- Samples with bounding-boxes: {numpy.count_nonzero(samples[:,bbox_column])}")
+logging.info(f"- Samples with empty bounding-boxes: {numpy.count_nonzero(samples[:,empty_bbox_column])}")
 logging.info(f"- Samples with contours: {numpy.count_nonzero(samples[:,contour_column])}")
 logging.info(f"- Samples with tags: {numpy.count_nonzero(samples[:,tag_column])}")
 logging.info("")
@@ -132,6 +138,13 @@ if arguments.copyright:
     for copyright in copyrights:
         logging.info(f"- Copyright *{copyright}* samples: {numpy.count_nonzero(samples[:,copyright_columns[copyright]])}")
     logging.info("")
+
+if arguments.empty_bbox:
+    logging.info("Empty Bounding Boxes:")
+    logging.info("")
+    indices = numpy.flatnonzero(samples[:, empty_bbox_column])
+    indices = " ".join([str(index) for index in indices])
+    logging.info(indices)
 
 if arguments.license:
     logging.info("Licenses:")
