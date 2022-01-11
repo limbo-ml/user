@@ -3,10 +3,10 @@ Welcome to Limbo!
 
 The Limbo project provides three things:
 
-:ref:`data` is a growing collection (200000 images and counting) of synthetic
+:ref:`data` is a growing collection (400000 images and counting) of synthetic
 computer vision training data created for our research.  If you're a computer
 vision researcher interested in training models on synthetic data, we encourage
-you to download a copy!
+you to request a copy!
 
 :ref:`specification` is the specification for how that data is stored.  If
 you're creating synthetic image data for research, we encourage you to consider
