@@ -13,6 +13,7 @@ import tqdm
 import limbo.data
 
 parser = argparse.ArgumentParser(description="Print information about Limbo dataset(s).")
+parser.add_argument("--annotations", action="store_true", help="Display annotation statistics.")
 parser.add_argument("--copyright", action="store_true", help="Display copyright statistics.")
 parser.add_argument("--empty-bbox", action="store_true", help="Display samples that have empty bounding boxes.")
 parser.add_argument("--license", action="store_true", help="Display license statistics.")
@@ -124,13 +125,14 @@ old_columns = [category_columns[category] for category in categories]
 new_columns = [index for index, column in enumerate(old_columns)]
 new_samples = samples[:, old_columns]
 
-logging.info("Annotations:")
-logging.info("")
-for configuration in numpy.unique(new_samples, axis=0):
-    label = " + ".join([f"*{category}*" for category, new_column in zip(categories, new_columns) if configuration[new_column]])
-    matches = numpy.all(numpy.equal(new_samples, configuration), axis=1)
-    logging.info(f"- Samples annotated {label}: {numpy.sum(matches)}")
-logging.info("")
+if arguments.annotations:
+    logging.info("Annotations:")
+    logging.info("")
+    for configuration in numpy.unique(new_samples, axis=0):
+        label = " + ".join([f"*{category}*" for category, new_column in zip(categories, new_columns) if configuration[new_column]])
+        matches = numpy.all(numpy.equal(new_samples, configuration), axis=1)
+        logging.info(f"- Samples annotated {label}: {numpy.sum(matches)}")
+    logging.info("")
 
 if arguments.copyright:
     logging.info("Copyrights:")
