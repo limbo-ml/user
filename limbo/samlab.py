@@ -57,7 +57,7 @@ class ImageCollection(samlab.dashboard.backend.images.ImageCollection):
         colors = ["red", "orange", "yellow", "green", "cyan", "blue", "purple"]
         sample = self._dataset[index]
         results = []
-        for annotation in sample.metadata["annotations"]:
+        for annotation in sample.metadata.get("annotations", []):
             if "bbox" not in annotation:
                 continue
 
@@ -175,7 +175,7 @@ class ImageCollection(samlab.dashboard.backend.images.ImageCollection):
             Sequence of categories that apply to the image as a whole.
         """
         sample = self._dataset[index]
-        annotations = sample.metadata["annotations"]
+        annotations = sample.metadata.get("annotations", [])
         annotations = [annotation for annotation in annotations if "bbox" not in annotation]
         annotations = [annotation for annotation in annotations if "contours" not in annotation]
         return sorted(list({annotation["category"] for annotation in annotations}))
