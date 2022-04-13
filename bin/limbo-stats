@@ -103,63 +103,63 @@ licenses = sorted(license_columns.keys())
 
 samples = scipy.sparse.coo_matrix((data, (i, j))).toarray()
 
-logging.info(f"Total samples: {len(dataset)}.")
-logging.info("")
-logging.info(f"- Samples with provenance: {numpy.count_nonzero(samples[:,provenance_column])}")
-logging.info(f"- Samples with images: {numpy.count_nonzero(samples[:,image_column])}")
-logging.info(f"- Samples with synthetic data: {numpy.count_nonzero(samples[:,synthetic_column])}")
-logging.info(f"- Samples with cryptomatte data: {numpy.count_nonzero(samples[:,cryptomatte_column])}")
-logging.info(f"- Samples with bounding-boxes: {numpy.count_nonzero(samples[:,bbox_column])}")
-logging.info(f"- Samples with empty bounding-boxes: {numpy.count_nonzero(samples[:,empty_bbox_column])}")
-logging.info(f"- Samples with contours: {numpy.count_nonzero(samples[:,contour_column])}")
-logging.info(f"- Samples with tags: {numpy.count_nonzero(samples[:,tag_column])}")
-logging.info("")
+print(f"Total samples: {len(dataset)}.")
+print("")
+print(f"- Samples with provenance: {numpy.count_nonzero(samples[:,provenance_column])}")
+print(f"- Samples with images: {numpy.count_nonzero(samples[:,image_column])}")
+print(f"- Samples with synthetic data: {numpy.count_nonzero(samples[:,synthetic_column])}")
+print(f"- Samples with cryptomatte data: {numpy.count_nonzero(samples[:,cryptomatte_column])}")
+print(f"- Samples with bounding-boxes: {numpy.count_nonzero(samples[:,bbox_column])}")
+print(f"- Samples with empty bounding-boxes: {numpy.count_nonzero(samples[:,empty_bbox_column])}")
+print(f"- Samples with contours: {numpy.count_nonzero(samples[:,contour_column])}")
+print(f"- Samples with tags: {numpy.count_nonzero(samples[:,tag_column])}")
+print("")
 
-logging.info("Categories:")
-logging.info("")
+print("Categories:")
+print("")
 for category in categories:
-    logging.info(f"- Category *{category}* samples: {numpy.count_nonzero(samples[:,category_columns[category]])}")
-logging.info("")
+    print(f"- Category *{category}* samples: {numpy.count_nonzero(samples[:,category_columns[category]])}")
+print("")
 
 old_columns = [category_columns[category] for category in categories]
 new_columns = [index for index, column in enumerate(old_columns)]
 new_samples = samples[:, old_columns]
 
 if arguments.annotations:
-    logging.info("Annotations:")
-    logging.info("")
+    print("Annotations:")
+    print("")
     for configuration in numpy.unique(new_samples, axis=0):
         label = " + ".join([f"*{category}*" for category, new_column in zip(categories, new_columns) if configuration[new_column]])
         matches = numpy.all(numpy.equal(new_samples, configuration), axis=1)
-        logging.info(f"- Samples annotated {label}: {numpy.sum(matches)}")
-    logging.info("")
+        print(f"- Samples annotated {label}: {numpy.sum(matches)}")
+    print("")
 
 if arguments.copyright:
-    logging.info("Copyrights:")
-    logging.info("")
+    print("Copyrights:")
+    print("")
     for copyright in copyrights:
-        logging.info(f"- Copyright *{copyright}* samples: {numpy.count_nonzero(samples[:,copyright_columns[copyright]])}")
-    logging.info("")
+        print(f"- Copyright *{copyright}* samples: {numpy.count_nonzero(samples[:,copyright_columns[copyright]])}")
+    print("")
 
 if arguments.empty_bbox:
-    logging.info("Empty Bounding Boxes:")
-    logging.info("")
+    print("Empty Bounding Boxes:")
+    print("")
     indices = numpy.flatnonzero(samples[:, empty_bbox_column])
     indices = " ".join([str(index) for index in indices])
-    logging.info(indices)
+    print(indices)
 
 if arguments.license:
-    logging.info("Licenses:")
-    logging.info("")
+    print("Licenses:")
+    print("")
     for license in licenses:
-        logging.info(f"- License *{license}* samples: {numpy.count_nonzero(samples[:,license_columns[license]])}")
-    logging.info("")
+        print(f"- License *{license}* samples: {numpy.count_nonzero(samples[:,license_columns[license]])}")
+    print("")
 
 if arguments.license_csv:
-    sys.stdout.write("count,original,indices\n")
+    print("count,original,indices\n")
     for license in licenses:
         indices = numpy.flatnonzero(samples[:, license_columns[license]])
         indices = " ".join([str(index) for index in indices])
-        sys.stdout.write(f"{numpy.count_nonzero(samples[:,license_columns[license]])},\"{license}\",{indices}\n")
+        print(f"{numpy.count_nonzero(samples[:,license_columns[license]])},\"{license}\",{indices}\n")
 
 
