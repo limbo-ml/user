@@ -493,6 +493,35 @@ class Sample(object):
 
 
     @property
+    def default_cryptomatte_path(self):
+        image_filename = self.name.replace("image", "cryptomatte") + ".cryptomatte.exr"
+        image_path = os.path.join(os.path.dirname(self.path), image_filename)
+        return image_path
+
+
+    @property
+    def default_image_path(self):
+        image_filename = self.name + ".png"
+        image_path = os.path.join(os.path.dirname(self.path), image_filename)
+        return image_path
+
+
+    @property
+    def default_synthetic_path(self):
+        image_filename = self.name + ".exr"
+        image_path = os.path.join(os.path.dirname(self.path), image_filename)
+        return image_path
+
+
+    def delete(self):
+        """Unconditionally remove this sample and related files."""
+        paths = [self.default_cryptomatte_path, self.default_image_path, self.default_synthetic_path, self.path]
+        for path in paths:
+            if os.path.exists(path):
+                os.remove(path)
+
+
+    @property
     def graph(self):
         """Graphcat network used for image processing.
 
