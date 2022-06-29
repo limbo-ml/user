@@ -74,4 +74,288 @@ For each sample, image data is stored in separate files.  The image filenames
 are arbitrary, but each image file *must* be located in the same directory as
 the corresponding metadata file.
 
+We strongly urge you to use the :ref:`software` to manipulate Limbo data, as it
+greatly simplifies most data-wrangling tasks and is guaranteed to be up-to-date.
 
+Photograph Metadata
+~~~~~~~~~~~~~~~~~~~
+
+For a real-world photograph, the simplest useful metadata file might look like the following::
+
+    {
+      "image": {
+        "content-type": "image/jpeg",
+        "filename": "1234a.jpg",
+        "res": [
+          800,
+          638
+        ]
+      }
+    }
+    
+... in this case, the file references a single image (1234a.jpg) in JPEG format (image/jpg) with resolution 800×638, and the image doesn't include any annotations. 
+
+Whenever possible, real-world photos should include provenance information::
+
+    {
+      "image": {
+        "content-type": "image/jpeg",
+        "filename": "image_0000.jpg",
+        "res": [
+          800,
+          638
+        ]
+      },
+      "provenance": {
+        "copyright": "2020 U.S. Department Of Stuff",
+        "license": "U.S. Government Works",
+        "license-uri": "https://www.usa.gov/government-works",
+        "uri": "https://www.flickr.com/photos/departmentofstuff/1234a.jpg"
+      }
+    }
+    
+Note that there are provisions to store copyright and license information, along with the URI to the complete text of the license, and the URI to the original source of the image.  All of these fields are optional and might be missing.
+
+Metadata will also include annotations when available.  The optional annotations field contains a flat list of annotations that apply to the image.  For example, the image may be *tagged* to provide ground truth for *classification*::
+
+    {
+      "annotations": [
+        { "category": "photograph" },
+        { "category": "daytime" },
+        { "category": "30B" }
+      ],
+      "image": {
+        "content-type": "image/jpeg",
+        "filename": "image_0000.jpg",
+        "res": [
+          800,
+          638
+        ]
+      },
+      "provenance": {
+        "copyright": "2020 U.S. Department Of Stuff",
+        "license": "U.S. Government Works",
+        "license-uri": "https://www.usa.gov/government-works",
+        "uri": "https://www.flickr.com/photos/departmentofstuff/1234a.jpg"
+      }
+    }
+    
+Similarly, the annotations could include *bounding boxes* for *object detection*::
+
+    {
+      "annotations": [
+        { "category": "photograph" },
+        { "category": "daytime" },
+        { "category": "30B" },
+        {
+          "bbox": [
+            30.092927932739258,
+            152.92666625976562,
+            198.16666984558105,
+            116.9666748046875
+          ],
+          "bbox_mode": "XYWH_ABS",
+          "category": "30B"
+        }
+      ],
+      "image": {
+        "content-type": "image/jpeg",
+        "filename": "image_0000.jpg",
+        "res": [
+          800,
+          638
+        ]
+      },
+      "provenance": {
+        "copyright": "2020 U.S. Department Of Stuff",
+        "license": "U.S. Government Works",
+        "license-uri": "https://www.usa.gov/government-works",
+        "uri": "https://www.flickr.com/photos/departmentofstuff/1234a.jpg"
+      }
+    }
+
+Note that each bounding box annotation contains the extents of the box, plus the *category*.  The required *bbox_mode* field explicitly indicates how to interpret the box extent values.  In this case, *XHWH_ABS* indicates that the extents are defined using the top-left corner of the box, plus the width and height respectively.  All values are measured in absolute (pixel) units, from the top-left corner of the image.
+
+Finally, annotations can also include *contours* for *object segmentation*::
+
+    {
+      "annotations": [
+        { "category": "photograph" },
+        { "category": "daytime" },
+        { "category": "30B" },
+        {
+          "bbox": [
+            30.092927932739258,
+            152.92666625976562,
+            198.16666984558105,
+            116.9666748046875
+          ],
+          "bbox_mode": "XYWH_ABS",
+          "category": "30B"
+        },
+        {
+          "category": "30B",
+          "contour_mode": "XY_ABS",
+          "contours": [
+            [
+              [
+                582.0,
+                719.3859110474486
+              ],
+              [
+                582.4620157651706,
+                719.0
+              ],
+              # Coordinates elided for clarity
+              [
+                645.226868058932,
+                627.0
+              ]
+            ]
+          ]
+        }
+      ],
+      "image": {
+        "content-type": "image/jpeg",
+        "filename": "image_0000.jpg",
+        "res": [
+          800,
+          638
+        ]
+      },
+      "provenance": {
+        "copyright": "2020 U.S. Department Of Stuff",
+        "license": "U.S. Government Works",
+        "license-uri": "https://www.usa.gov/government-works",
+        "uri": "https://www.flickr.com/photos/departmentofstuff/1234a.jpg"
+      }
+    }
+
+Note that the *contours* field is a list of contours, where each contour is a list of coordinates, and each coordinate is a pair of values.  The required *contours_mode* field indicates that the coordinates are all absolute (pixel) values relative to the top-left corner of the image (XY_ABS).
+
+Synthetic Metadata
+~~~~~~~~~~~~~~~~~~
+
+Metadata for synthetic samples generated using CGI can contain any subset of the above, plus additional synthetic-specific fields.  The simplest possible synthetic sample metadata would be the following::
+
+    {
+      "synthetic": {
+        "cryptomatte": {
+          "content-type": "image/x-exr",
+          "filename": "cryptomatte_0000000.cryptomatte.exr",
+          "manifest": [
+            "30B/0"
+          ],
+          "res": [
+            720,
+            720
+          ]
+        },
+        "image": {
+          "content-type": "image/x-exr",
+          "filename": "image_0000000.exr",
+          "res": [
+            720,
+            720
+          ]
+        }
+      }
+    }
+
+Note that this sample includes an image (image_0000000.exr) in OpenEXR format (image/x-exr) that is 720×720, plus a *cryptomatte* (cryptomatte_0000000.cryptomatte.exr), also in OpenEXR format (image/x-exr) that is also 720×720.
+
+The OpenEXR file format is a high-quality multi-channel image file format widely used in films, television, and special effects.  It can store high-dynamic-range (HDR) images and supplemental information not supported in other file formats.  For the :ref:`data`, the *image* file reference contains the original synthetic visible-wavelength HDR image, plus a corresponding Z-channel depth image suitable for use training models to make predictions on LIDAR information (see :ref:`depth`).
+
+A cryptomatte is an OpenEXR file used to store high quality matte (or mask) information in an extremely efficient, highly compressed form.  For the :ref:`data`, the *cryptomatte* file reference contains image masks for every individual class instance in a single file, which can run to thousands of instances in some of the later campaigns.
+
+Note that the *cryptomatte* field also contains a *manifest* field, which lists the label for every class instance that might be included in the file.  These labels are the keys for retrieving image masks for individual class instances.
+
+This metadata file would be typical of a just-rendered synthetic sample; you're unlikely to encounter a metadata file this simple in the :ref:`data`, because we extract commonly-used metadata from the image and cryptomatte to give end-users a better out-of-box experience.  In particular, our metadata will always contain the visible-wavelength image as a PNG file for convenence::
+
+    {
+      "image": {
+        "content-type": "image/png",
+        "filename": "image_0000000.png",
+        "res": [
+          720,
+          720
+        ]
+      },
+      "synthetic": {
+        "cryptomatte": {
+          "content-type": "image/x-exr",
+          "filename": "cryptomatte_0000000.cryptomatte.exr",
+          "manifest": [
+            "30B/0"
+          ],
+          "res": [
+            720,
+            720
+          ]
+        },
+        "image": {
+          "content-type": "image/x-exr",
+          "filename": "image_0000000.exr",
+          "res": [
+            720,
+            720
+          ]
+        }
+      }
+    }
+
+... note the distinction between the *synthetic.image* field and the top-level *image* field, which is intended for general-purpose training of typical machine learning algorithms.  Users who are interested in training models using HDR and/or depth data can retrieve it directly from the OpenEXR file using the :ref:`software`, or other tools of their choosing.
+
+We also automatically extract *contour* and *bounding-box* annotations for each sample, which we will not show again here.  Again, this is a convenience for typical present-day training tasks, advanced users who wish to train models using mask images instead of bounding boxes or contours can extract them directly from the cryptomatte file using the :ref:`software`.
+
+A final piece of synthetic-image-particular information that may be included in sample metadata is the *parameters* field, which will include parameters used to generate the synthetic image.  For example::
+
+    {
+      "image": {
+        "content-type": "image/png",
+        "filename": "image_0000000.png",
+        "res": [
+          720,
+          720
+        ]
+      },
+      "synthetic": {
+        "cryptomatte": {
+          "content-type": "image/x-exr",
+          "filename": "cryptomatte_0000000.cryptomatte.exr",
+          "manifest": [
+            "30B/0"
+          ],
+          "res": [
+            720,
+            720
+          ]
+        },
+        "image": {
+          "content-type": "image/x-exr",
+          "filename": "image_0000000.exr",
+          "res": [
+            720,
+            720
+          ]
+        },
+        "parameters": {
+          "/background/env_map": "driving_school_8k",
+          "/camera/focal": 66.58746224652447,
+          "/camera/orientation": [
+            5.424789345191059,
+            -151.62201181447,
+            0.7936692623506559
+          ],
+          "/camera/position": [
+            -3.428114175796509,
+            2.1293375492095947,
+            -9.065103530883789
+          ],
+          "/cylinder/material": "white",
+          "/cylinder/variant": 2
+        }
+      }
+    }
+
+The parameters will include scene-specific information that may be of interest for more unusual experiments, such as predicting the style of cylinder in a scene, trying to infer the focal length of the camera, or predicting whether a scene is interior or exterior, day or night.
