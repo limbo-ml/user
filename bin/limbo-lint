@@ -12,6 +12,7 @@ import limbo.data
 parser = argparse.ArgumentParser(description="Correct problems with Limbo dataset(s).")
 parser.add_argument("--delete-empty-bboxes", action="store_true", help="Remove empty bounding box annotations.")
 parser.add_argument("--delete-missing-cryptomatte", action="store_true", help="Remove samples that don't have Cryptomatte data.")
+parser.add_argument("--delete-missing-image", action="store_true", help="Remove samples that don't have a reference image.")
 parser.add_argument("--delete-missing-synthetic", action="store_true", help="Remove samples that don't have synthetic image data.")
 parser.add_argument("--dry-run", action="store_true", help="Don't make changes.")
 parser.add_argument("datadir", nargs="+", default=[], help="Limbo dataset director(ies).")
@@ -47,6 +48,11 @@ for sample in tqdm.tqdm(dataset, desc="Samples", unit="sample"):
     if arguments.delete_missing_cryptomatte:
         if not os.path.exists(sample.default_cryptomatte_path):
             logging.error(f"Missing Cryptomatte image {sample.default_synthetic_path}")
+            delete_sample = True
+
+    if arguments.delete_missing_image:
+        if not os.path.exists(sample.default_image_path):
+            logging.error(f"Missing reference image {sample.default_image_path}")
             delete_sample = True
 
     if arguments.delete_missing_synthetic:
