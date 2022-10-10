@@ -3,4 +3,4 @@ imagecat
 nbsphinx
 samlab
 skia-python
-sphinx-gallery
+sphinx-gallery < 0.11
