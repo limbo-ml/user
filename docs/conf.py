@@ -11,6 +11,7 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "Limbo"
+copyright = "2021, National Technology & Engineering Solutions of Sandia, LLC (NTESS)"
 author = "Timothy M. Shead"
 
 # The full version, including alpha/beta/rc tags
@@ -58,10 +59,11 @@ master_doc = "index"
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+nitpicky = True
 
 # -- nbsphinx options --------------------------------------------------------
 
-nbsphinx_execute = "never" if "READTHEDOCS" in os.environ else "always"
+nbsphinx_execute = "never"
 
 # -- Options for HTML output -------------------------------------------------
 

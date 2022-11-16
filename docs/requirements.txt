@@ -1,6 +1,9 @@
 graphcat
 imagecat
+ipython
 nbsphinx
 samlab
 skia-python
+sphinx >= 3.5
 sphinx-gallery < 0.11
+sphinx_rtd_theme
