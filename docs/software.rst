@@ -11,7 +11,6 @@ Limbo Software
    user-guide
    reference
    compatibility
-   dependencies
-   support
    release-notes
+   support
 

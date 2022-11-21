@@ -1,0 +1,51 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.module]
+name = "limbo"
+
+[project]
+authors = [{name="Timothy M. Shead", email="tim@shead-custom-design.com"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+]
+dependencies=[
+    "imagecat[exr]",
+    "numpy",
+    "skia-python",
+    "tqdm",
+]
+description="Library for accessing computer vision training data in Limbo Data Format."
+dynamic = ["version"]
+maintainers = [{name="Timothy M. Shead", email="tim@shead-custom-design.com"}]
+name="limbo-ml"
+
+[project.optional-dependencies]
+doc = [
+    "ipython",
+    "nbsphinx",
+    "sphinx >= 3.5",
+    "sphinx-argparse",
+    "sphinx-gallery < 0.11",
+    "sphinx_rtd_theme",
+]
+
+[project.scripts]
+limbo-lint = "limbo.cli.lint:main"
+limbo-materialize = "limbo.cli.materialize:main"
+limbo-stats = "limbo.cli.stats:main"
+
+[project.urls]
+"Chat" = "https://github.com/limbo-ml/user/discussions"
+"Coverage" = "https://coveralls.io/r/limbo-ml/user"
+"Documentation" = "http://limbo-ml.readthedocs.io/"
+"Issue Tracker" = "http://github.com/limbo-ml/user/issues"
+"Regression Tests" = "http://github.com/limbo-ml/user/actions"
+"Source" = "http://github.com/limbo-ml/user"
+
+

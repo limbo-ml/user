@@ -1,5 +1,4 @@
-graphcat
-imagecat
+imagecat[exr]
 ipython
 nbsphinx
 samlab
