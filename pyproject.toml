@@ -26,6 +26,17 @@ maintainers = [{name="Timothy M. Shead", email="tim@shead-custom-design.com"}]
 name="limbo-ml"
 
 [project.optional-dependencies]
+all = [
+    "IPython",
+    "behave",
+    "coverage",
+    "ipywidgets",
+    "nbsphinx",
+    "sphinx >= 3.5",
+    "sphinx-argparse",
+    "sphinx-gallery < 0.11",
+    "sphinx_rtd_theme",
+]
 doc = [
     "ipython",
     "nbsphinx",

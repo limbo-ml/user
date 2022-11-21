@@ -69,11 +69,6 @@ def step_impl(context):
     context.notebooks = sorted(glob.glob(os.path.join(docs_dir, "*.ipynb")))
 
 
-@given(u'all testing notebooks')
-def step_impl(context):
-    context.notebooks = sorted(glob.glob(os.path.join(notebook_dir, "*.ipynb")))
-
-
 @then(u'every notebook runs without error')
 def step_impl(context):
     for notebook in context.notebooks:
