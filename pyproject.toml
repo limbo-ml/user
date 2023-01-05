@@ -6,7 +6,7 @@ build-backend = "flit_core.buildapi"
 name = "limbo"
 
 [project]
-authors = [{name="Timothy M. Shead", email="tim@shead-custom-design.com"}]
+authors = [{name="Timothy M. Shead", email="tshead@sandia.gov"}]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
@@ -22,7 +22,7 @@ dependencies=[
 ]
 description="Library for accessing computer vision training data in Limbo Data Format."
 dynamic = ["version"]
-maintainers = [{name="Timothy M. Shead", email="tim@shead-custom-design.com"}]
+maintainers = [{name="Timothy M. Shead", email="tshead@sandia.gov"}]
 name="limbo-ml"
 
 [project.optional-dependencies]
