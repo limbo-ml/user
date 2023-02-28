@@ -37,7 +37,7 @@ Once you have pandoc, install Limbo along with all of the dependencies needed to
     $ pip install limbo-ml[doc]
 
 Next, do the following to download a tarball to the current directory
-containing all of the Imagecat source code, which includes the documentation::
+containing all of the Limbo source code, including the documentation::
 
     $ pip download limbo-ml --no-binary=:all: --no-deps
 
