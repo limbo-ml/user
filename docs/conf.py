@@ -44,7 +44,6 @@ intersphinx_mapping = {
     "ipython": ("https://ipython.readthedocs.io/en/stable", None),
     "numpy": ("https://numpy.org/doc/stable", None),
     "python": ("https://docs.python.org/3", None),
-    "samlab": ("https://samlab.readthedocs.io/en/latest", None),
     "skia": ("https://kyamagu.github.io/skia-python", None),
     }
 
