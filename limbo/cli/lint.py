@@ -12,6 +12,7 @@ import tqdm
 
 import limbo.data
 
+
 def main():
     parser = argparse.ArgumentParser(description="Correct problems with Limbo dataset(s).")
     parser.add_argument("--delete-empty-bboxes", action="store_true", help="Remove empty bounding box annotations.")

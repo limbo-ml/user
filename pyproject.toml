@@ -47,6 +47,7 @@ doc = [
 ]
 
 [project.scripts]
+limbo-compress = "limbo.cli.compress:main"
 limbo-lint = "limbo.cli.lint:main"
 limbo-materialize = "limbo.cli.materialize:main"
 limbo-stats = "limbo.cli.stats:main"
