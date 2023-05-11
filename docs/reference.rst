@@ -8,6 +8,7 @@ Contents:
 
    limbo.rst
    limbo.cli.rst
+   limbo.cli.compress.rst
    limbo.cli.lint.rst
    limbo.cli.materialize.rst
    limbo.cli.stats.rst
