@@ -229,6 +229,23 @@ class Cryptomatte(object):
         return self._sample.graph.output("/cryptomatte")
 
 
+    def resized_matte(self, instances, res):
+        """Compute a resized matte image.
+
+        Returns
+        -------
+        image: :class:`imagecat.data.Image` or :any:`None`
+            Imagecat image containing the resized matte.
+        """
+        if instances is None:
+            instances = self.instances
+        elif isinstance(instances, str):
+            instances = [instances]
+        self._sample.graph.set_task("/cryptomatte/mattes", graphcat.constant(instances))
+        self._sample.graph.set_task("/resize-cryptomatte/res", graphcat.constant(res))
+        return self._sample.graph.output("/resize-cryptomatte")
+
+
     def preview(self, show_bboxes=False, show_contours=False, instances=None):
         if instances is None:
             instances = self.instances
@@ -539,6 +556,8 @@ class Sample(object):
                 filename = self._metadata["image"]["filename"]
                 path = os.path.join(os.path.dirname(self._path), filename)
                 imagecat.add_task(graph, "/load-image", imagecat.operator.load, path=path)
+                imagecat.add_task(graph, "/resize-image", imagecat.operator.transform.resize, res=None)
+                imagecat.add_links(graph, "/load-image", ("/resize-image", "image"))
 
     #        imagecat.add_task(graph, "/load-segmentation", imagecat.operator.load, path=None)
 
@@ -562,6 +581,7 @@ class Sample(object):
 
                     imagecat.add_task(graph, "/load-cryptomatte", imagecat.operator.load, path=path)
                     imagecat.add_task(graph, "/cryptomatte", imagecat.operator.cryptomatte.decoder, mattes=None)
+                    imagecat.add_task(graph, "/resize-cryptomatte", imagecat.operator.transform.resize, res=None)
                     imagecat.add_task(graph, "/cryptomatte-clown", imagecat.operator.cryptomatte.decoder, clown=True, mattes=None)
     #        imagecat.add_task(graph, "/save-segmentation", imagecat.operator.save, path=None)
 
@@ -570,6 +590,7 @@ class Sample(object):
 
                     imagecat.add_links(graph, "/load-cryptomatte", ("/cryptomatte", "image"))
                     imagecat.add_links(graph, "/cryptomatte", ("/contours", "image"))
+                    imagecat.add_links(graph, "/cryptomatte", ("/resize-cryptomatte", "image"))
                     imagecat.add_links(graph, "/contours", ("/bbox", "contours"))
                     imagecat.add_links(graph, "/load-cryptomatte", ("/cryptomatte-clown", "image"))
     #        imagecat.add_links(graph, "/cryptomatte-clown", ("/save-segmentation", "image"))
@@ -589,6 +610,19 @@ class Sample(object):
         if "image" not in self._metadata:
             return None
         return self.graph.output("/load-image")
+
+
+    def resized_image(self, res):
+        """Resized reference image for this sample, if it exists.
+
+        Returns
+        -------
+        image: :class:`imagecat.data.Image` or :any:`None`
+        """
+        if "image" not in self._metadata:
+            return None
+        self.graph.set_task("/resize-image/res", graphcat.constant(res))
+        return self.graph.output("/resize-image")
 
 
     @property
