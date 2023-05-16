@@ -9,6 +9,7 @@ Limbo Software
    installation
    getting-started
    user-guide
+   commands
    reference
    compatibility
    release-notes

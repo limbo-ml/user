@@ -2,6 +2,8 @@
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
 # certain rights in this software.
 
+"""Implements the :ref:`limbo-materialize` command."""
+
 import argparse
 import logging
 import os
@@ -10,12 +12,18 @@ import tqdm
 
 import limbo.data
 
-def main():
-    parser = argparse.ArgumentParser()
+
+def argument_parser():
+    parser = argparse.ArgumentParser(description="Extract commonly-used data from raw Limbo datasets.")
     parser.add_argument("--all", action="store_true", help="Materialize everything.")
     parser.add_argument("--bounds", action="store_true", help="Materialize bounding box / bounding polygon metadata.")
     parser.add_argument("--images", action="store_true", help="Materialize PNG images from the EXR originals.")
     parser.add_argument("datadir", nargs="+", default=[], help="Limbo dataset director(ies).")
+    return parser
+
+
+def main():
+    parser = argument_parser()
     arguments = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO)

@@ -2,6 +2,8 @@
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
 # certain rights in this software.
 
+"""Implements the :ref:`limbo-compress` command."""
+
 import argparse
 import collections
 import pickle
@@ -12,8 +14,8 @@ import numpy
 import tqdm
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Compress the contents of a Limbo dataset for efficient loading.")
+def argument_parser():
+    parser = argparse.ArgumentParser(description="Compress the contents of Limbo datasets for efficient loading.")
     parser.add_argument("--end", type=int, help="Range of samples to extract. Default: all samples.")
     parser.add_argument("--images", action="store_true", help="Generate image output.")
     parser.add_argument("--image-size", type=int, nargs=2, default=(224, 224), help="Target image size. Default: %(default)s")
@@ -22,6 +24,11 @@ def main():
     parser.add_argument("--prefix", default="compressed", help="Output file prefix. Default: %(default)s")
     parser.add_argument("--start", type=int, help="Range of samples to extract. Default: all samples.")
     parser.add_argument("directory", nargs="+", help="Directory(ies) containing Limbo data.")
+    return parser
+
+
+def main():
+    parser = argument_parser()
     arguments = parser.parse_args()
 
     images = []

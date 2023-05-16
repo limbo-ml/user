@@ -2,6 +2,8 @@
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
 # certain rights in this software.
 
+"""Implements the :ref:`limbo-stats` command."""
+
 import argparse
 import itertools
 import logging
@@ -14,14 +16,20 @@ import tqdm
 
 import limbo.data
 
-def main():
-    parser = argparse.ArgumentParser(description="Print information about Limbo dataset(s).")
+
+def argument_parser():
+    parser = argparse.ArgumentParser(description="Print information about Limbo datasets.")
     parser.add_argument("--annotations", action="store_true", help="Display annotation statistics.")
     parser.add_argument("--copyright", action="store_true", help="Display copyright statistics.")
     parser.add_argument("--empty-bbox", action="store_true", help="Display samples that have empty bounding boxes.")
     parser.add_argument("--license", action="store_true", help="Display license statistics.")
     parser.add_argument("--license-csv", action="store_true", help="Display license statistics as CSV data.")
     parser.add_argument("datadir", nargs="+", default=[], help="Limbo dataset director(ies).")
+    return parser
+
+
+def main():
+    parser = argument_parser()
     arguments = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(message)s")

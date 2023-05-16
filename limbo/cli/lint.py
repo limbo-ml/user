@@ -2,6 +2,8 @@
 # Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
 # certain rights in this software.
 
+"""Implements the :ref:`limbo-lint` command."""
+
 
 import argparse
 import logging
@@ -13,14 +15,19 @@ import tqdm
 import limbo.data
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Correct problems with Limbo dataset(s).")
+def argument_parser():
+    parser = argparse.ArgumentParser(description="Correct problems with Limbo datasets.")
     parser.add_argument("--delete-empty-bboxes", action="store_true", help="Remove empty bounding box annotations.")
     parser.add_argument("--delete-missing-cryptomatte", action="store_true", help="Remove samples that don't have Cryptomatte data.")
     parser.add_argument("--delete-missing-image", action="store_true", help="Remove samples that don't have a reference image.")
     parser.add_argument("--delete-missing-synthetic", action="store_true", help="Remove samples that don't have synthetic image data.")
     parser.add_argument("--dry-run", action="store_true", help="Don't make changes.")
     parser.add_argument("datadir", nargs="+", default=[], help="Limbo dataset director(ies).")
+    return parser
+
+
+def main():
+    parser = argument_parser()
     arguments = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(message)s")
