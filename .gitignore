@@ -6,4 +6,5 @@
 .ipynb_checkpoints
 dist
 docs/_build
-
+docs/user-guide/*.npy
+docs/user-guide/*.pickle
