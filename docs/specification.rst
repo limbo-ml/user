@@ -92,8 +92,8 @@ For a real-world photograph, the simplest useful metadata file might look like t
         ]
       }
     }
-    
-... in this case, the file references a single image (1234a.jpg) in JPEG format (image/jpg) with resolution 800×638, and the image doesn't include any annotations. 
+
+... in this case, the file references a single image (1234a.jpg) in JPEG format (image/jpg) with resolution 800×638, and the image doesn't include any annotations.
 
 Whenever possible, real-world photos should include provenance information::
 
@@ -113,7 +113,7 @@ Whenever possible, real-world photos should include provenance information::
         "uri": "https://www.flickr.com/photos/departmentofstuff/1234a.jpg"
       }
     }
-    
+
 Note that there are provisions to store copyright and license information, along with the URI to the complete text of the license, and the URI to the original source of the image.  All of these fields are optional and might be missing.
 
 Metadata will also include annotations when available.  The optional annotations field contains a flat list of annotations that apply to the image.  For example, the image may be *tagged* to provide ground truth for *classification*::
@@ -139,7 +139,7 @@ Metadata will also include annotations when available.  The optional annotations
         "uri": "https://www.flickr.com/photos/departmentofstuff/1234a.jpg"
       }
     }
-    
+
 Similarly, the annotations could include *bounding boxes* for *object detection*::
 
     {
@@ -174,7 +174,7 @@ Similarly, the annotations could include *bounding boxes* for *object detection*
       }
     }
 
-Note that each bounding box annotation contains the extents of the box, plus the *category*.  The required *bbox_mode* field explicitly indicates how to interpret the box extent values.  In this case, *XHWH_ABS* indicates that the extents are defined using the top-left corner of the box, plus the width and height respectively.  All values are measured in absolute (pixel) units, from the top-left corner of the image.
+Note that each bounding box annotation contains the extents of the box, plus the *category*.  The required *bbox_mode* field explicitly indicates how to interpret the box extent values.  In this case, *XYWH_ABS* indicates that the extents are defined using the top-left corner of the box, plus the width and height respectively.  All values are measured in absolute (pixel) units, from the top-left corner of the image.
 
 Finally, annotations can also include *contours* for *object segmentation*::
 
@@ -266,7 +266,7 @@ Note that this sample includes an image (image_0000000.exr) in OpenEXR format (i
 
 The OpenEXR file format is a high-quality multi-channel image file format widely used in films, television, and special effects.  It can store high-dynamic-range (HDR) images and supplemental information not supported in other file formats.  For the :ref:`data`, the *image* file reference contains the original synthetic visible-wavelength HDR image, plus a corresponding Z-channel depth image suitable for use training models to make predictions on LIDAR information (see :ref:`depth`).
 
-A cryptomatte is an OpenEXR file used to store high quality matte (or mask) information in an extremely efficient, highly compressed form.  For the :ref:`data`, the *cryptomatte* file reference contains image masks for every individual class instance in a single file, which can run to thousands of instances in some of the later campaigns.
+A cryptomatte is an OpenEXR file used to store high quality matte (or mask) information in an extremely efficient, highly compressed form.  For the :ref:`data`, the *cryptomatte* file reference contains image masks for every individual class instance in a single file, which can run to hundreds or thousands of instances per image in some of the later campaigns.
 
 Note that the *cryptomatte* field also contains a *manifest* field, which lists the label for every class instance that might be included in the file.  These labels are the keys for retrieving image masks for individual class instances.
 
