@@ -1,4 +1,4 @@
-imagecat[exr]
+imagecat
 ipython
 nbsphinx
 skia-python
