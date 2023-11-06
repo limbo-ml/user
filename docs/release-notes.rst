@@ -3,6 +3,11 @@
 Release Notes
 =============
 
+Limbo 0.3.1 - November 6, 2023
+------------------------------
+
+* Fix problems with the documentation build.
+
 Limbo 0.3.0 - November 6, 2023
 ------------------------------
 
