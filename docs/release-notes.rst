@@ -3,6 +3,14 @@
 Release Notes
 =============
 
+Limbo 0.3.0 - November 6, 2023
+------------------------------
+
+* Documented additional camera metadata that can be acessed directly from images.
+* Added an article on object detection to the user guide.
+* Added the `limbo-compress` command for optimizing data acess.
+* General code and documentation cleanup.
+
 Limbo 0.2.0 - November 21, 2022
 -------------------------------
 
