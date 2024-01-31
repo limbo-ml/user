@@ -6,6 +6,7 @@
 
 import argparse
 import collections
+import copy
 import pickle
 import re
 
@@ -23,6 +24,7 @@ def argument_parser():
     parser.add_argument("--metadata", action="store_true", help="Generate metadata output.")
     parser.add_argument("--prefix", default="compressed", help="Output file prefix. Default: %(default)s")
     parser.add_argument("--start", type=int, help="Range of samples to extract. Default: all samples.")
+    parser.add_argument("--strip-regions", action="store_true", help="Remove bounding-box and contour information from metadata output.")
     parser.add_argument("directory", nargs="+", help="Directory(ies) containing Limbo data.")
     return parser
 
@@ -33,7 +35,7 @@ def main():
 
     images = []
     masks = collections.defaultdict(list)
-    metadata = []
+    metadatas = []
 
     dataset = limbo.data.Dataset(arguments.directory)
     for index, sample in enumerate(tqdm.tqdm(dataset)):
@@ -61,7 +63,11 @@ def main():
             masks[name].append(mask)
 
         if arguments.metadata:
-            metadata.append(sample.metadata)
+            metadata = copy.deepcopy(sample.metadata)
+            if arguments.strip_regions:
+                categories = {annotation.get("category") for annotation in metadata.get("annotations", [])}
+                metadata["annotations"] = [{"category":category} for category in categories]
+            metadatas.append(metadata)
 
 
     if arguments.images:
@@ -74,5 +80,5 @@ def main():
 
     if arguments.metadata:
         with open(f"{arguments.prefix}-metadata.pickle", "wb") as stream:
-            pickle.dump(metadata, stream)
+            pickle.dump(metadatas, stream)
 
