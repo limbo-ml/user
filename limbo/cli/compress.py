@@ -61,10 +61,13 @@ def main():
             images.append(image)
 
         for name, pattern in zip(mask_names, mask_patterns):
-            instances = sample.synthetic.cryptomatte.instances
-            instances = [instance for instance in instances if re.search(pattern, instance)]
-            mask = sample.synthetic.cryptomatte.resized_matte(instances, arguments.image_size)
-            mask = mask.layers["M"].data
+            if sample.synthetic.cryptomatte:
+                instances = sample.synthetic.cryptomatte.instances
+                instances = [instance for instance in instances if re.search(pattern, instance)]
+                mask = sample.synthetic.cryptomatte.resized_matte(instances, arguments.image_size)
+                mask = mask.layers["M"].data
+            else:
+                mask = numpy.zeros((arguments.image_size[0], arguments.image_size[1], 1))
             masks[name].append(mask)
 
         if arguments.metadata:
