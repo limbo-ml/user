@@ -33,6 +33,11 @@ def main():
     parser = argument_parser()
     arguments = parser.parse_args()
 
+    mask_names = arguments.mask[0::2]
+    mask_patterns = arguments.mask[1::2]
+    if len(mask_names) != len(mask_patterns):
+        raise ValueError("--mask must specify one or more <mask name> <mask pattern> pairs")
+
     images = []
     masks = collections.defaultdict(list)
     metadatas = []
@@ -55,7 +60,7 @@ def main():
                 image = numpy.tile(image.layers["Y"].data, (1, 1, 3))
             images.append(image)
 
-        for name, pattern in zip(arguments.mask[0:2], arguments.mask[1:2]):
+        for name, pattern in zip(mask_names, mask_patterns):
             instances = sample.synthetic.cryptomatte.instances
             instances = [instance for instance in instances if re.search(pattern, instance)]
             mask = sample.synthetic.cryptomatte.resized_matte(instances, arguments.image_size)
