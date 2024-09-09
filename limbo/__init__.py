@@ -5,4 +5,4 @@
 
 """Tools for working with computer vision data stored using the :ref:`specification`."""
 
-__version__ = "0.4.0"
+__version__ = "0.5.0-dev"
