@@ -3,6 +3,14 @@
 Release Notes
 =============
 
+Limbo 0.4.0 - September 9, 2024
+-------------------------------
+
+* Added an option to compress annotation metadata by removing bboxes, contours, and redundant categories.
+* Raise an error when passing the wrong number of arguments to limbo-compress --mask.
+* limbo-compress generates empty masks for data without cryptomattes.
+* Added documentation for 3D model data, along with links to external 3D resources.
+
 Limbo 0.3.1 - November 6, 2023
 ------------------------------
 
